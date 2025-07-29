@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Busca Avançada OSINT</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="simbolo.png" />
+
+  <!-- Estilos e ícones -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#4CAF50',
+            darkBg: '#0e0e0e',
+            darkCard: '#1a1a1a',
+            hibp: '#e35d6a'
+          }
+        }
+      }
+    };
+  </script>
+</head>
+
+<body class="bg-darkBg text-white font-sans">
+  <div class="max-w-4xl mx-auto p-6">
+
+    <!-- Logo e Cabeçalho -->
+    <header class="text-center mb-8">
+      <img src="simbolo.png" alt="Logo Operações de Informação" class="w-40 h-40 mx-auto mb-4 rounded-full border-4 border-primary shadow-lg" />
+      <h1 class="text-4xl font-bold text-primary mb-1">OPERAÇÕES DE INFORMAÇÃO</h1>
+      <h2 class="text-lg text-gray-300 italic mb-2">BELLUM EXTRA BELLUM</h2>
+      <p class="text-sm text-gray-500">Ferramenta de Busca Avançada OSINT — Redirecionamento para fontes externas</p>
+     <p class="text-sm text-gray-500">Criado e desenvolvido por — Rafael Rodrigues dos Santos "Analista de Sistemas"</p>
+	</header>
+
+    <div class="space-y-8">
+
+      <!-- CPF -->
+      <div class="bg-darkCard p-6 rounded-2xl shadow-lg">
+        <div class="flex items-center gap-2 mb-4">
+          <i data-lucide="id-card" class="text-primary"></i>
+          <h3 class="text-lg font-semibold text-primary">Buscar Pessoa por CPF</h3>
+        </div>
+        <form action="https://www.google.com/search" method="get" target="_blank" onsubmit="formatSearch('personNameCPF', 'personNameCPF_hidden', 'CPF')">
+          <input id="personNameCPF" type="text" placeholder="Ex: João Silva" class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3" required>
+          <input type="hidden" name="as_q" id="personNameCPF_hidden">
+          <button class="bg-primary hover:bg-green-600 px-4 py-2 rounded text-white">Pesquisar</button>
+        </form>
+      </div>
+
+      <!-- CNPJ -->
+      <div class="bg-darkCard p-6 rounded-2xl shadow-lg">
+        <div class="flex items-center gap-2 mb-4">
+          <i data-lucide="briefcase" class="text-primary"></i>
+          <h3 class="text-lg font-semibold text-primary">Buscar Empresa por CNPJ</h3>
+        </div>
+        <form action="https://www.google.com/search" method="get" target="_blank" onsubmit="formatSearch('companyNameCNPJ', 'companyNameCNPJ_hidden', 'CNPJ')">
+          <input id="companyNameCNPJ" type="text" placeholder="Ex: Empresa XYZ Ltda." class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3" required>
+          <input type="hidden" name="as_q" id="companyNameCNPJ_hidden">
+          <button class="bg-primary hover:bg-green-600 px-4 py-2 rounded text-white">Pesquisar</button>
+        </form>
+      </div>
+
+      <!-- Email -->
+      <div class="bg-darkCard p-6 rounded-2xl shadow-lg">
+        <div class="flex items-center gap-2 mb-4">
+          <i data-lucide="mail" class="text-primary"></i>
+          <h3 class="text-lg font-semibold text-primary">Buscar Contato/Email</h3>
+        </div>
+        <form action="https://www.google.com/search" method="get" target="_blank" onsubmit="formatSearch('personNameContactEmail', 'personNameContactEmail_hidden', 'contato OR email OR e-mail')">
+          <input id="personNameContactEmail" type="text" placeholder="Ex: Maria Souza" class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3" required>
+          <input type="hidden" name="as_q" id="personNameContactEmail_hidden">
+          <button class="bg-primary hover:bg-green-600 px-4 py-2 rounded text-white">Pesquisar</button>
+        </form>
+      </div>
+
+      <!-- Telefone -->
+      <div class="bg-darkCard p-6 rounded-2xl shadow-lg">
+        <div class="flex items-center gap-2 mb-4">
+          <i data-lucide="phone" class="text-primary"></i>
+          <h3 class="text-lg font-semibold text-primary">Buscar Telefone</h3>
+        </div>
+        <form action="https://www.google.com/search" method="get" target="_blank" onsubmit="formatSearch('personNameContactPhone', 'personNameContactPhone_hidden', 'telefone OR celular')">
+          <input id="personNameContactPhone" type="text" placeholder="Ex: Pedro Santos" class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3" required>
+          <input type="hidden" name="as_q" id="personNameContactPhone_hidden">
+          <button class="bg-primary hover:bg-green-600 px-4 py-2 rounded text-white">Pesquisar</button>
+        </form>
+      </div>
+
+      <!-- Dono do Zap -->
+      <div class="bg-darkCard p-6 rounded-2xl shadow-lg">
+        <div class="flex items-center gap-2 mb-4">
+          <i data-lucide="zap" class="text-yellow-400"></i>
+          <h3 class="text-lg font-semibold text-yellow-400">Dono do Zap</h3>
+        </div>
+        <form action="https://donodozap.com/" method="get" target="_blank">
+          <input type="text" placeholder="Ex: 5511987654321 (opcional)" class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3">
+          <button class="bg-yellow-500 hover:bg-yellow-600 px-4 py-2 rounded text-white">Ir para Dono do Zap</button>
+        </form>
+      </div>
+
+      <!-- WhatsMyName -->
+      <div class="bg-darkCard p-6 rounded-2xl shadow-lg">
+        <div class="flex items-center gap-2 mb-4">
+          <i data-lucide="globe" class="text-blue-400"></i>
+          <h3 class="text-lg font-semibold text-blue-400">WhatsMyName Web</h3>
+        </div>
+        <form action="https://whatsmyname.app/" method="get" target="_blank">
+          <input type="text" placeholder="Ex: usuario_exemplo ou email@dominio.com" class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3">
+          <button class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-white">Ir para WhatsMyName</button>
+        </form>
+      </div>
+
+      <!-- Wayback -->
+      <div class="bg-darkCard p-6 rounded-2xl shadow-lg">
+        <div class="flex items-center gap-2 mb-4">
+          <i data-lucide="archive" class="text-purple-400"></i>
+          <h3 class="text-lg font-semibold text-purple-400">Wayback Machine</h3>
+        </div>
+        <form id="waybackForm" method="get" target="_blank" onsubmit="redirectWayback()">
+          <input id="waybackUrl" type="text" placeholder="Ex: https://www.exemplo.com" class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3" required>
+          <button class="bg-purple-500 hover:bg-purple-600 px-4 py-2 rounded text-white">Buscar Arquivo</button>
+        </form>
+      </div>
+
+      <!-- Have I Been Pwned -->
+      <div class="bg-darkCard p-6 rounded-2xl shadow-lg">
+        <div class="flex items-center gap-2 mb-4">
+          <i data-lucide="shield-off" class="text-hibp"></i>
+          <h3 class="text-lg font-semibold text-hibp">Verificar Vazamentos (Have I Been Pwned)</h3>
+        </div>
+        <form id="hibpForm" action="https://haveibeenpwned.com/" method="get" target="_blank" onsubmit="redirectHIBP()">
+          <input id="hibpInput" type="text" placeholder="Ex: seu.email@dominio.com" class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3">
+          <button class="bg-hibp hover:bg-red-600 px-4 py-2 rounded text-white">Verificar Vazamentos</button>
+        </form>
+      </div>
+<!-- ChatGPT -->
+<div class="bg-darkCard p-6 rounded-2xl shadow-lg">
+  <div class="flex items-center gap-2 mb-4">
+    <i data-lucide="bot" class="text-emerald-400"></i>
+    <h3 class="text-lg font-semibold text-emerald-400">ChatGPT</h3>
+  </div>
+  <p class="text-gray-400 mb-4">Acesse o ChatGPT da OpenAI para análise automatizada, geração de texto e outras interações com IA.</p>
+  <a href="https://chat.openai.com" target="_blank" class="inline-block bg-emerald-500 hover:bg-emerald-600 px-4 py-2 rounded text-white">Abrir ChatGPT</a>
+
+</div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    lucide.createIcons();
+
+    function formatSearch(inputId, hiddenId, keywords) {
+      const name = document.getElementById(inputId).value;
+      document.getElementById(hiddenId).value = `intext:"${name}" AND (${keywords})`;
+    }
+
+    function redirectWayback() {
+      const url = document.getElementById('waybackUrl').value;
+      document.getElementById('waybackForm').action = `https://web.archive.org/web/${url}`;
+    }
+
+    function redirectHIBP() {
+      const value = document.getElementById('hibpInput').value.trim();
+      if (value) {
+        window.open(`https://haveibeenpwned.com/account/${encodeURIComponent(value)}`, '_blank');
+      }
+    }
+  </script>
+</body>
+</html>
