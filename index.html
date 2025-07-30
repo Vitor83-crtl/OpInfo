@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR" class="dark">
 <head>
@@ -51,6 +52,19 @@
         <form action="https://www.google.com/search" method="get" target="_blank" onsubmit="formatSearch('personNameCPF', 'personNameCPF_hidden', 'CPF')">
           <input id="personNameCPF" type="text" placeholder="Ex: João Silva" class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3" required>
           <input type="hidden" name="as_q" id="personNameCPF_hidden">
+          <button class="bg-primary hover:bg-green-600 px-4 py-2 rounded text-white">Pesquisar</button>
+        </form>
+      </div>
+	  
+	   <!-- LOCALIZAR REDES SOCIAIS-->
+      <div class="bg-darkCard p-6 rounded-2xl shadow-lg">
+        <div class="flex items-center gap-2 mb-4">
+          <i data-lucide="id-card" class="text-primary"></i>
+          <h3 class="text-lg font-semibold text-primary">LOCALIZAR REDES SOCIAIS</h3>
+        </div>
+        <form action="https://www.google.com/search" method="get" target="_blank" onsubmit="return formatSearch(this, 'CPF')">
+          <input type="text" name="query" placeholder="Ex: João Silva" class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3" required>
+          <input type="hidden" name="as_q">
           <button class="bg-primary hover:bg-green-600 px-4 py-2 rounded text-white">Pesquisar</button>
         </form>
       </div>
