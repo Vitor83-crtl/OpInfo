@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Busca Avançada OSINT</title>
 
-    <!-- Favicon com ícone melhorado -->
-  <link rel="icon" href="simbolo.ico" />
-  <link rel="apple-touch-icon" href="simbolo.ico">
+  <!-- Favicon com ícone melhorado -->
+  <link rel="icon" type="image/png" href="simbolo.png" />
+  <link rel="apple-touch-icon" href="simbolo.png">
   <meta name="theme-color" content="#4CAF50" />
 
-   <!-- Estilos e ícones -->
+  <!-- Estilos e ícones -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -28,18 +28,34 @@
       }
     };
   </script>
+  <style>
+    #conteudoPrincipal { display: none; }
+  </style>
 </head>
-<body class="bg-darkBg text-white font-sans">
-  <div class="max-w-4xl mx-auto p-6">
 
-    <!-- Logo e Cabeçalho -->
+<body class="bg-darkBg text-white font-sans">
+
+<!-- 🔒 Tela de senha -->
+<div id="telaSenha" class="flex flex-col items-center justify-center min-h-screen text-center px-4">
+  <h1 class="text-2xl font-bold text-primary mb-4">🔐 Acesso Restrito</h1>
+   <img src="simbolo.png" alt="Logo Operações de Informação" class="w-40 h-40 mx-auto mb-4 rounded-full border-4 border-primary shadow-lg" />
+  <p class="text-sm text-gray-500">Criado e desenvolvido por — Rafael Rodrigues dos Santos "Analista de Sistemas"</p>
+  <p class="mb-4 text-gray-400">Digite a senha para acessar a ferramenta OSINT:</p>
+  <input id="senhaInput" type="password" placeholder="Digite a senha" class="p-3 rounded bg-gray-800 border border-gray-600 mb-4 w-full max-w-sm" />
+  <button onclick="verificarSenha()" class="bg-primary hover:bg-green-600 px-6 py-2 rounded text-white">Entrar</button>
+  <p id="erroSenha" class="text-red-500 mt-3 hidden">Senha incorreta. Tente novamente.</p>
+</div>
+
+<!-- Conteúdo principal (oculto inicialmente) -->
+<div id="conteudoPrincipal">
+  <div class="max-w-4xl mx-auto p-6">
     <header class="text-center mb-8">
       <img src="simbolo.png" alt="Logo Operações de Informação" class="w-40 h-40 mx-auto mb-4 rounded-full border-4 border-primary shadow-lg" />
       <h1 class="text-4xl font-bold text-primary mb-1">OPERAÇÕES DE INFORMAÇÃO</h1>
       <h2 class="text-lg text-gray-300 italic mb-2">BELLUM EXTRA BELLUM</h2>
       <p class="text-sm text-gray-500">Ferramenta de Busca Avançada OSINT — Redirecionamento para fontes externas</p>
-     <p class="text-sm text-gray-500">Criado e desenvolvido por — Rafael Rodrigues dos Santos "Analista de Sistemas"</p>
-	</header>
+      <p class="text-sm text-gray-500">Criado e desenvolvido por — Rafael Rodrigues dos Santos "Analista de Sistemas"</p>
+    </header>
 
     <div class="space-y-8">
 
@@ -195,25 +211,43 @@
   </div>
 
   <!-- Scripts -->
-  <script>
-    lucide.createIcons();
+    </div>
+  </div>
+</div>
 
-    function formatSearch(inputId, hiddenId, keywords) {
-      const name = document.getElementById(inputId).value;
-      document.getElementById(hiddenId).value = `intext:"${name}" AND (${keywords})`;
-    }
+<!-- Scripts -->
+<script>
+  lucide.createIcons();
 
-    function redirectWayback() {
-      const url = document.getElementById('waybackUrl').value;
-      document.getElementById('waybackForm').action = `https://web.archive.org/web/${url}`;
-    }
+  function verificarSenha() {
+    const senhaCorreta = "opinfo@2025"; // 🔑 Altere aqui sua senha
+    const senhaDigitada = document.getElementById("senhaInput").value;
 
-    function redirectHIBP() {
-      const value = document.getElementById('hibpInput').value.trim();
-      if (value) {
-        window.open(`https://haveibeenpwned.com/account/${encodeURIComponent(value)}`, '_blank');
-      }
+    if (senhaDigitada === senhaCorreta) {
+      document.getElementById("telaSenha").style.display = "none";
+      document.getElementById("conteudoPrincipal").style.display = "block";
+    } else {
+      document.getElementById("erroSenha").classList.remove("hidden");
     }
-  </script>
+  }
+
+  function formatSearch(inputId, hiddenId, keywords) {
+    const name = document.getElementById(inputId).value;
+    document.getElementById(hiddenId).value = `intext:"${name}" AND (${keywords})`;
+  }
+
+  function redirectWayback() {
+    const url = document.getElementById('waybackUrl').value;
+    document.getElementById('waybackForm').action = `https://web.archive.org/web/${url}`;
+  }
+
+  function redirectHIBP() {
+    const value = document.getElementById('hibpInput').value.trim();
+    if (value) {
+      window.open(`https://haveibeenpwned.com/account/${encodeURIComponent(value)}`, '_blank');
+    }
+  }
+</script>
+
 </body>
 </html>
