@@ -221,10 +221,10 @@
   lucide.createIcons();
 
   function verificarSenha() {
-    const senhaCorreta = "opinfo@2025"; // 🔑 Altere aqui sua senha
-    const senhaDigitada = document.getElementById("senhaInput").value;
+   const senhasValidas = ["opinfo", "rbjv", "rafael"]; // 🔑 Adicione mais senhas aqui
+const senhaDigitada = document.getElementById("senhaInput").value;
 
-    if (senhaDigitada === senhaCorreta) {
+if (senhasValidas.includes(senhaDigitada)) {
       document.getElementById("telaSenha").style.display = "none";
       document.getElementById("conteudoPrincipal").style.display = "block";
     } else {
