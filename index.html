@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR" class="dark">
 <head>
@@ -6,10 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Busca Avançada OSINT</title>
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/x-icon" href="simbolo.ico" />
+    <!-- Favicon com ícone melhorado -->
+  <link rel="icon" type="image/png" href="simbolo.png" />
+  <link rel="apple-touch-icon" href="simbolo.png">
+  <meta name="theme-color" content="#4CAF50" />
 
-  <!-- Estilos e ícones -->
+   <!-- Estilos e ícones -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -28,7 +29,6 @@
     };
   </script>
 </head>
-
 <body class="bg-darkBg text-white font-sans">
   <div class="max-w-4xl mx-auto p-6">
 
@@ -43,11 +43,11 @@
 
     <div class="space-y-8">
 
-      <!-- CPF -->
+      <!-- CPF/NOME -->
       <div class="bg-darkCard p-6 rounded-2xl shadow-lg">
         <div class="flex items-center gap-2 mb-4">
           <i data-lucide="id-card" class="text-primary"></i>
-          <h3 class="text-lg font-semibold text-primary">Buscar Pessoa por Nome ou CPF</h3>
+          <h3 class="text-lg font-semibold text-primary">Buscar Pessoa por CPF ou Nome</h3>
         </div>
         <form action="https://www.google.com/search" method="get" target="_blank" onsubmit="formatSearch('personNameCPF', 'personNameCPF_hidden', 'CPF')">
           <input id="personNameCPF" type="text" placeholder="Ex: João Silva" class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3" required>
@@ -56,18 +56,44 @@
         </form>
       </div>
 	  
-	   <!-- LOCALIZAR REDES SOCIAIS-->
-      <div class="bg-darkCard p-6 rounded-2xl shadow-lg">
-        <div class="flex items-center gap-2 mb-4">
-          <i data-lucide="id-card" class="text-primary"></i>
-          <h3 class="text-lg font-semibold text-primary">LOCALIZAR REDES SOCIAIS</h3>
-        </div>
-        <form action="https://www.google.com/search" method="get" target="_blank" onsubmit="return formatSearch(this, 'CPF')">
-          <input type="text" name="query" placeholder="Ex: João Silva" class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3" required>
-          <input type="hidden" name="as_q">
-          <button class="bg-primary hover:bg-green-600 px-4 py-2 rounded text-white">Pesquisar</button>
-        </form>
-      </div>
+	  <!-- Redes Sociais (Instagram) -->
+<div class="bg-darkCard p-6 rounded-2xl shadow-lg">
+  <div class="flex items-center gap-2 mb-4">
+    <i data-lucide="camera" class="text-pink-400"></i>
+    <h3 class="text-lg font-semibold text-pink-400">Buscar Redes Sociais (Instagram)</h3>
+  </div>
+  <form action="https://www.google.com/search" method="get" target="_blank" onsubmit="formatSearch('socialInstagram', 'socialInstagram_hidden', 'site:instagram.com')">
+    <input id="socialInstagram" type="text" placeholder="Ex: nome da pessoa ou usuário" class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3" required>
+    <input type="hidden" name="as_q" id="socialInstagram_hidden">
+    <button class="bg-pink-500 hover:bg-pink-600 px-4 py-2 rounded text-white">Buscar Instagram</button>
+  </form>
+</div>
+
+	  <!-- Redes Sociais (Facebook) -->
+<div class="bg-darkCard p-6 rounded-2xl shadow-lg">
+  <div class="flex items-center gap-2 mb-4">
+    <i data-lucide="camera" class="text-pink-400"></i>
+    <h3 class="text-lg font-semibold text-pink-400">Buscar Redes Sociais (Facebook)</h3>
+  </div>
+  <form action="https://www.google.com/search" method="get" target="_blank" onsubmit="formatSearch('socialfacebook', 'socialfacebook_hidden', 'site:facebook.com')">
+    <input id="socialfacebook" type="text" placeholder="Ex: nome da pessoa ou usuário" class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3" required>
+    <input type="hidden" name="as_q" id="socialfacebook_hidden">
+    <button class="bg-pink-500 hover:bg-pink-600 px-4 py-2 rounded text-white">Buscar facebook</button>
+  </form>
+</div>
+
+<!-- Redes Sociais (linkedin) -->
+<div class="bg-darkCard p-6 rounded-2xl shadow-lg">
+  <div class="flex items-center gap-2 mb-4">
+    <i data-lucide="camera" class="text-pink-400"></i>
+    <h3 class="text-lg font-semibold text-pink-400">Buscar Redes Sociais (linkedin)</h3>
+  </div>
+  <form action="https://www.google.com/search" method="get" target="_blank" onsubmit="formatSearch('sociallinkedin', 'sociallinkedin_hidden', 'site:linkedin.com')">
+    <input id="sociallinkedin" type="text" placeholder="Ex: nome da pessoa ou usuário" class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3" required>
+    <input type="hidden" name="as_q" id="sociallinkedin_hidden">
+    <button class="bg-pink-500 hover:bg-pink-600 px-4 py-2 rounded text-white">Buscar linkedin</button>
+  </form>
+</div>
 
       <!-- CNPJ -->
       <div class="bg-darkCard p-6 rounded-2xl shadow-lg">
