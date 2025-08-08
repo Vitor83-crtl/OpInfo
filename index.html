@@ -5,13 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Busca Avançada OSINT</title>
 
-  <!-- Favicon com ícone melhorado -->
   <link rel="icon" href="https://zeus83-ctrl.github.io/OpInfo/simbolo.ico">
-<link rel="apple-touch-icon" href="https://zeus83-ctrl.github.io/OpInfo/simbolo.ico">
-<link rel="shortcut icon" href="https://zeus83-ctrl.github.io/OpInfo/simbolo.ico">
+  <link rel="apple-touch-icon" href="https://zeus83-ctrl.github.io/OpInfo/simbolo.ico">
+  <link rel="shortcut icon" href="https://zeus83-ctrl.github.io/OpInfo/simbolo.ico">
   <meta name="theme-color" content="#4CAF50" />
 
-  <!-- Estilos e ícones -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -23,6 +21,8 @@
             primary: '#4CAF50',
             darkBg: '#0e0e0e',
             darkCard: '#1a1a1a',
+            lightBg: '#f0f2f5',
+            lightCard: '#ffffff',
             hibp: '#e35d6a'
           }
         }
@@ -31,231 +31,287 @@
   </script>
   <style>
     #conteudoPrincipal { display: none; }
+    .fade-in { animation: fadeIn 0.5s ease-in-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .light .bg-darkBg { background-color: theme('colors.lightBg'); }
+    .light .bg-darkCard { background-color: theme('colors.lightCard'); }
+    .light .text-white { color: theme('colors.gray.800'); }
+    .light .text-gray-300 { color: theme('colors.gray.600'); }
+    .light .text-gray-400 { color: theme('colors.gray.500'); }
+    .light .text-gray-500 { color: theme('colors.gray.500'); }
+    .light .border-gray-700 { border-color: theme('colors.gray.300'); }
+    .light .border-gray-600 { border-color: theme('colors.gray.400'); }
+    .light .bg-gray-800 { background-color: theme('colors.gray.200'); }
+    .light .shadow-lg { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
   </style>
 </head>
 
-<body class="bg-darkBg text-white font-sans">
+<body class="bg-darkBg text-white font-sans transition-colors duration-300">
 
-<!-- 🔒 Tela de senha -->
-<div id="telaSenha" class="flex flex-col items-center justify-center min-h-screen text-center px-4">
-  <h1 class="text-2xl font-bold text-primary mb-4">🔐 Acesso Restrito</h1>
-   <img src="simbolo.png" alt="Logo Operações de Informação" class="w-40 h-40 mx-auto mb-4 rounded-full border-4 border-primary shadow-lg" />
-  <p class="text-sm text-gray-500">Criado e desenvolvido por — Rafael Rodrigues dos Santos "Analista de Sistemas"</p>
+<div id="telaSenha" class="flex flex-col items-center justify-center min-h-screen text-center px-4 bg-darkBg text-white transition-colors duration-300">
+  <h1 class="text-3xl font-extrabold text-primary mb-4 animate-bounce">🔐 Acesso Restrito</h1>
+  <img src="simbolo.png" alt="Logo Operações de Informação" class="w-40 h-40 mx-auto mb-4 rounded-full border-4 border-primary shadow-lg transition-transform hover:scale-110" />
+  <p class="text-sm text-gray-500 mb-2">Criado e desenvolvido por — Rafael Rodrigues dos Santos "Analista de Sistemas"</p>
   <p class="mb-4 text-gray-400">Digite a senha para acessar a ferramenta OSINT:</p>
-  <input id="senhaInput" type="password" placeholder="Digite a senha" class="p-3 rounded bg-gray-800 border border-gray-600 mb-4 w-full max-w-sm" />
-  <button onclick="verificarSenha()" class="bg-primary hover:bg-green-600 px-6 py-2 rounded text-white">Entrar</button>
-  <p id="erroSenha" class="text-red-500 mt-3 hidden">Senha incorreta. Tente novamente.</p>
+  <input id="senhaInput" type="password" placeholder="Digite a senha" class="p-3 rounded bg-gray-800 border border-gray-600 mb-4 w-full max-w-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50 transition" />
+  <button onclick="verificarSenha()" class="bg-primary hover:bg-green-600 px-8 py-3 rounded-full text-white font-bold shadow-lg transition-colors">Entrar</button>
+  <p id="erroSenha" class="text-red-500 mt-3 hidden fade-in">Senha incorreta. Tente novamente.</p>
 </div>
 
-<!-- Conteúdo principal (oculto inicialmente) -->
-<div id="conteudoPrincipal">
+<div class="flex items-center gap-2 ml-4">
+  <button id="increase-font" class="p-2 rounded-full bg-gray-800 border border-gray-700 text-white hover:bg-gray-700 transition" title="Aumentar Fonte">
+    <i data-lucide="zoom-in"></i>
+  </button>
+  <button id="decrease-font" class="p-2 rounded-full bg-gray-800 border border-gray-700 text-white hover:bg-gray-700 transition" title="Diminuir Fonte">
+    <i data-lucide="zoom-out"></i>
+  </button>
+</div>
+
+	
+<div id="conteudoPrincipal" class="fade-in">
   <div class="max-w-4xl mx-auto p-6">
-    <header class="text-center mb-8">
-      <img src="simbolo.png" alt="Logo Operações de Informação" class="w-40 h-40 mx-auto mb-4 rounded-full border-4 border-primary shadow-lg" />
-      <h1 class="text-4xl font-bold text-primary mb-1">OPERAÇÕES DE INFORMAÇÃO</h1>
-      <h2 class="text-lg text-gray-300 italic mb-2">BELLUM EXTRA BELLUM</h2>
-      <p class="text-sm text-gray-500">Ferramenta de Busca Avançada OSINT — Redirecionamento para fontes externas</p>
-      <p class="text-sm text-gray-500">Criado e desenvolvido por — Rafael Rodrigues dos Santos "Analista de Sistemas"</p>
+    <header class="flex items-center justify-between mb-8">
+      <div class="flex-shrink-0">
+        <img src="simbolo.png" alt="Logo Operações de Informação" class="w-16 h-16 rounded-full border-2 border-primary shadow-lg" />
+      </div>
+      <div class="text-center flex-grow">
+        <h1 class="text-2xl font-bold text-primary mb-1">OPERAÇÕES DE INFORMAÇÃO</h1>
+        <h2 class="text-md text-gray-300 italic mb-1">BELLUM EXTRA BELLUM</h2>
+        <p class="text-xs text-gray-500">Ferramenta de Busca Avançada OSINT</p>
+      </div>
+<button id="theme-toggle" class="flex-shrink-0 p-2 rounded-full bg-gray-800 border border-gray-700 text-white transition-colors duration-300 hover:bg-gray-700">        <i data-lucide="sun" class="h-6 w-6"></i>
+      </button>
     </header>
 
-    <div class="space-y-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-      <!-- CPF/NOME -->
-      <div class="bg-darkCard p-6 rounded-2xl shadow-lg">
-        <div class="flex items-center gap-2 mb-4">
-          <i data-lucide="id-card" class="text-primary"></i>
-          <h3 class="text-lg font-semibold text-primary">Buscar Pessoa por CPF ou Nome</h3>
+      <div class="space-y-8">
+        <div class="bg-darkCard p-6 rounded-2xl shadow-lg border border-gray-700">
+          <div class="flex items-center gap-2 mb-4">
+            <i data-lucide="search" class="text-primary"></i>
+            <h3 class="text-xl font-bold text-primary">Buscas Google Avançadas</h3>
+          </div>
+          <div class="mb-6">
+            <h4 class="text-md font-semibold text-gray-300 mb-2">Pessoa por CPF ou Nome</h4>
+            <form action="https://www.google.com/search" method="get" target="_blank" onsubmit="formatSearch('personNameCPF', 'personNameCPF_hidden', 'CPF')">
+              <input id="personNameCPF" type="text" placeholder="Ex: João Silva" class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3 focus:border-primary" required>
+              <input type="hidden" name="as_q" id="personNameCPF_hidden">
+              <button class="bg-primary hover:bg-green-600 px-4 py-2 rounded text-white w-full transition-colors flex items-center justify-center gap-2"><i data-lucide="search"></i><span>Pesquisar</span></button>
+            </form>
+          </div>
+          <div class="mb-6">
+            <h4 class="text-md font-semibold text-gray-300 mb-2">Empresa por CNPJ</h4>
+            <form action="https://www.google.com/search" method="get" target="_blank" onsubmit="formatSearch('companyNameCNPJ', 'companyNameCNPJ_hidden', 'CNPJ')">
+              <input id="companyNameCNPJ" type="text" placeholder="Ex: Empresa XYZ Ltda." class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3 focus:border-primary" required>
+              <input type="hidden" name="as_q" id="companyNameCNPJ_hidden">
+              <button class="bg-primary hover:bg-green-600 px-4 py-2 rounded text-white w-full transition-colors flex items-center justify-center gap-2"><i data-lucide="search"></i><span>Pesquisar</span></button>
+            </form>
+          </div>
+          <div class="mb-6">
+            <h4 class="text-md font-semibold text-gray-300 mb-2">Contato/Email</h4>
+            <form action="https://www.google.com/search" method="get" target="_blank" onsubmit="formatSearch('personNameContactEmail', 'personNameContactEmail_hidden', 'contato OR email OR e-mail')">
+              <input id="personNameContactEmail" type="text" placeholder="Ex: Maria Souza" class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3 focus:border-primary" required>
+              <input type="hidden" name="as_q" id="personNameContactEmail_hidden">
+              <button class="bg-primary hover:bg-green-600 px-4 py-2 rounded text-white w-full transition-colors flex items-center justify-center gap-2"><i data-lucide="search"></i><span>Pesquisar</span></button>
+            </form>
+          </div>
+          <div>
+            <h4 class="text-md font-semibold text-gray-300 mb-2">Telefone</h4>
+            <form action="https://www.google.com/search" method="get" target="_blank" onsubmit="formatSearch('personNameContactPhone', 'personNameContactPhone_hidden', 'telefone OR celular')">
+              <input id="personNameContactPhone" type="text" placeholder="Ex: Pedro Santos" class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3 focus:border-primary" required>
+              <input type="hidden" name="as_q" id="personNameContactPhone_hidden">
+              <button class="bg-primary hover:bg-green-600 px-4 py-2 rounded text-white w-full transition-colors flex items-center justify-center gap-2"><i data-lucide="search"></i><span>Pesquisar</span></button>
+            </form>
+          </div>
         </div>
-        <form action="https://www.google.com/search" method="get" target="_blank" onsubmit="formatSearch('personNameCPF', 'personNameCPF_hidden', 'CPF')">
-          <input id="personNameCPF" type="text" placeholder="Ex: João Silva" class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3" required>
-          <input type="hidden" name="as_q" id="personNameCPF_hidden">
-          <button class="bg-primary hover:bg-green-600 px-4 py-2 rounded text-white">Pesquisar</button>
-        </form>
-      </div>
-	  
-	  <!-- Redes Sociais (Instagram) -->
-<div class="bg-darkCard p-6 rounded-2xl shadow-lg">
-  <div class="flex items-center gap-2 mb-4">
-    <i data-lucide="camera" class="text-pink-400"></i>
-    <h3 class="text-lg font-semibold text-pink-400">Buscar Redes Sociais (Instagram)</h3>
-  </div>
-  <form action="https://www.google.com/search" method="get" target="_blank" onsubmit="formatSearch('socialInstagram', 'socialInstagram_hidden', 'site:instagram.com')">
-    <input id="socialInstagram" type="text" placeholder="Ex: nome da pessoa ou usuário" class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3" required>
-    <input type="hidden" name="as_q" id="socialInstagram_hidden">
-    <button class="bg-pink-500 hover:bg-pink-600 px-4 py-2 rounded text-white">Buscar Instagram</button>
-  </form>
-</div>
 
-	  <!-- Redes Sociais (Facebook) -->
-<div class="bg-darkCard p-6 rounded-2xl shadow-lg">
-  <div class="flex items-center gap-2 mb-4">
-    <i data-lucide="camera" class="text-pink-400"></i>
-    <h3 class="text-lg font-semibold text-pink-400">Buscar Redes Sociais (Facebook)</h3>
-  </div>
-  <form action="https://www.google.com/search" method="get" target="_blank" onsubmit="formatSearch('socialfacebook', 'socialfacebook_hidden', 'site:facebook.com')">
-    <input id="socialfacebook" type="text" placeholder="Ex: nome da pessoa ou usuário" class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3" required>
-    <input type="hidden" name="as_q" id="socialfacebook_hidden">
-    <button class="bg-pink-500 hover:bg-pink-600 px-4 py-2 rounded text-white">Buscar facebook</button>
-  </form>
-</div>
-
-<!-- Redes Sociais (linkedin) -->
-<div class="bg-darkCard p-6 rounded-2xl shadow-lg">
-  <div class="flex items-center gap-2 mb-4">
-    <i data-lucide="camera" class="text-pink-400"></i>
-    <h3 class="text-lg font-semibold text-pink-400">Buscar Redes Sociais (linkedin)</h3>
-  </div>
-  <form action="https://www.google.com/search" method="get" target="_blank" onsubmit="formatSearch('sociallinkedin', 'sociallinkedin_hidden', 'site:linkedin.com')">
-    <input id="sociallinkedin" type="text" placeholder="Ex: nome da pessoa ou usuário" class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3" required>
-    <input type="hidden" name="as_q" id="sociallinkedin_hidden">
-    <button class="bg-pink-500 hover:bg-pink-600 px-4 py-2 rounded text-white">Buscar linkedin</button>
-  </form>
-</div>
-
-      <!-- CNPJ -->
-      <div class="bg-darkCard p-6 rounded-2xl shadow-lg">
-        <div class="flex items-center gap-2 mb-4">
-          <i data-lucide="briefcase" class="text-primary"></i>
-          <h3 class="text-lg font-semibold text-primary">Buscar Empresa por CNPJ</h3>
+        <div class="bg-darkCard p-6 rounded-2xl shadow-lg border border-gray-700">
+          <div class="flex items-center gap-2 mb-4">
+            <i data-lucide="share-2" class="text-pink-400"></i>
+            <h3 class="text-xl font-bold text-pink-400">Busca em Redes Sociais</h3>
+          </div>
+          <div class="mb-6">
+            <h4 class="text-md font-semibold text-gray-300 mb-2">Instagram</h4>
+            <form action="https://www.google.com/search" method="get" target="_blank" onsubmit="formatSearch('socialInstagram', 'socialInstagram_hidden', 'site:instagram.com')">
+              <input id="socialInstagram" type="text" placeholder="Ex: nome da pessoa ou usuário" class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3 focus:border-pink-400" required>
+              <input type="hidden" name="as_q" id="socialInstagram_hidden">
+              <button class="bg-pink-500 hover:bg-pink-600 px-4 py-2 rounded text-white w-full transition-colors flex items-center justify-center gap-2"><i data-lucide="instagram"></i><span>Buscar Instagram</span></button>
+            </form>
+          </div>
+          <div class="mb-6">
+            <h4 class="text-md font-semibold text-gray-300 mb-2">Facebook</h4>
+            <form action="https://www.google.com/search" method="get" target="_blank" onsubmit="formatSearch('socialfacebook', 'socialfacebook_hidden', 'site:facebook.com')">
+              <input id="socialfacebook" type="text" placeholder="Ex: nome da pessoa ou usuário" class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3 focus:border-pink-400" required>
+              <input type="hidden" name="as_q" id="socialfacebook_hidden">
+              <button class="bg-pink-500 hover:bg-pink-600 px-4 py-2 rounded text-white w-full transition-colors flex items-center justify-center gap-2"><i data-lucide="facebook"></i><span>Buscar Facebook</span></button>
+            </form>
+          </div>
+          <div>
+            <h4 class="text-md font-semibold text-gray-300 mb-2">LinkedIn</h4>
+            <form action="https://www.google.com/search" method="get" target="_blank" onsubmit="formatSearch('sociallinkedin', 'sociallinkedin_hidden', 'site:linkedin.com')">
+              <input id="sociallinkedin" type="text" placeholder="Ex: nome da pessoa ou usuário" class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3 focus:border-pink-400" required>
+              <input type="hidden" name="as_q" id="sociallinkedin_hidden">
+              <button class="bg-pink-500 hover:bg-pink-600 px-4 py-2 rounded text-white w-full transition-colors flex items-center justify-center gap-2"><i data-lucide="linkedin"></i><span>Buscar LinkedIn</span></button>
+            </form>
+          </div>
         </div>
-        <form action="https://www.google.com/search" method="get" target="_blank" onsubmit="formatSearch('companyNameCNPJ', 'companyNameCNPJ_hidden', 'CNPJ')">
-          <input id="companyNameCNPJ" type="text" placeholder="Ex: Empresa XYZ Ltda." class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3" required>
-          <input type="hidden" name="as_q" id="companyNameCNPJ_hidden">
-          <button class="bg-primary hover:bg-green-600 px-4 py-2 rounded text-white">Pesquisar</button>
-        </form>
-      </div>
-
-      <!-- Email -->
-      <div class="bg-darkCard p-6 rounded-2xl shadow-lg">
-        <div class="flex items-center gap-2 mb-4">
-          <i data-lucide="mail" class="text-primary"></i>
-          <h3 class="text-lg font-semibold text-primary">Buscar Contato/Email</h3>
-        </div>
-        <form action="https://www.google.com/search" method="get" target="_blank" onsubmit="formatSearch('personNameContactEmail', 'personNameContactEmail_hidden', 'contato OR email OR e-mail')">
-          <input id="personNameContactEmail" type="text" placeholder="Ex: Maria Souza" class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3" required>
-          <input type="hidden" name="as_q" id="personNameContactEmail_hidden">
-          <button class="bg-primary hover:bg-green-600 px-4 py-2 rounded text-white">Pesquisar</button>
-        </form>
       </div>
 
-      <!-- Telefone -->
-      <div class="bg-darkCard p-6 rounded-2xl shadow-lg">
-        <div class="flex items-center gap-2 mb-4">
-          <i data-lucide="phone" class="text-primary"></i>
-          <h3 class="text-lg font-semibold text-primary">Buscar Telefone</h3>
+      <div class="space-y-8">
+        <div class="bg-darkCard p-6 rounded-2xl shadow-lg border border-gray-700">
+          <div class="flex items-center gap-2 mb-4">
+            <i data-lucide="external-link" class="text-blue-400"></i>
+            <h3 class="text-xl font-bold text-blue-400">Ferramentas Externas</h3>
+          </div>
+          <div class="mb-6">
+            <h4 class="text-md font-semibold text-gray-300 mb-2 flex items-center gap-1"><i data-lucide="zap"></i><span>Dono do Zap</span></h4>
+            <form action="https://donodozap.com/" method="get" target="_blank">
+              <input type="text" placeholder="Ex: 5511987654321 (opcional)" class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3 focus:border-yellow-400">
+              <button class="bg-yellow-500 hover:bg-yellow-600 px-4 py-2 rounded text-white w-full transition-colors flex items-center justify-center gap-2"><i data-lucide="link"></i><span>Ir para Dono do Zap</span></button>
+            </form>
+          </div>
+          <div class="mb-6">
+            <h4 class="text-md font-semibold text-gray-300 mb-2 flex items-center gap-1"><i data-lucide="globe"></i><span>WhatsMyName Web</span></h4>
+            <form action="https://whatsmyname.app/" method="get" target="_blank">
+              <input type="text" placeholder="Ex: usuario_exemplo ou email@dominio.com" class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3 focus:border-blue-400">
+              <button class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-white w-full transition-colors flex items-center justify-center gap-2"><i data-lucide="link"></i><span>Ir para WhatsMyName</span></button>
+            </form>
+          </div>
+          <div class="mb-6">
+            <h4 class="text-md font-semibold text-gray-300 mb-2 flex items-center gap-1"><i data-lucide="clock"></i><span>Wayback Machine</span></h4>
+            <form id="waybackForm" method="get" target="_blank" onsubmit="redirectWayback()">
+              <input id="waybackUrl" type="text" placeholder="Ex: https://www.exemplo.com" class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3 focus:border-purple-400" required>
+              <button class="bg-purple-500 hover:bg-purple-600 px-4 py-2 rounded text-white w-full transition-colors flex items-center justify-center gap-2"><i data-lucide="link"></i><span>Buscar Arquivo</span></button>
+            </form>
+          </div>
+          <div class="mb-6">
+            <h4 class="text-md font-semibold text-gray-300 mb-2 flex items-center gap-1"><i data-lucide="shield-alert" class="text-hibp"></i><span>Verificar Vazamentos</span></h4>
+            <form id="hibpForm" action="https://haveibeenpwned.com/" method="get" target="_blank" onsubmit="redirectHIBP()">
+              <input id="hibpInput" type="text" placeholder="Ex: seu.email@dominio.com" class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3 focus:border-hibp">
+              <button class="bg-hibp hover:bg-red-600 px-4 py-2 rounded text-white w-full transition-colors flex items-center justify-center gap-2"><i data-lucide="link"></i><span>Verificar Vazamentos</span></button>
+            </form>
+          </div>
+          <div class="mb-6">
+            <h4 class="text-md font-semibold text-gray-300 mb-2 flex items-center gap-1"><i data-lucide="alert-triangle" class="text-hibp"></i><span>Pesquisar Mandados</span></h4>
+            <form id="mandadosForm" action="https://portalbnmp.cnj.jus.br/#/pesquisa-peca" method="get" target="_blank">
+              <input type="text" placeholder="Ex: Fulano de tal beltrano" class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3 focus:border-hibp">
+              <button class="bg-hibp hover:bg-red-600 px-4 py-2 rounded text-white w-full transition-colors flex items-center justify-center gap-2"><i data-lucide="link"></i><span>Pesquisar Mandados</span></button>
+            </form>
+          </div>
+          <div class="mb-6">
+            <h4 class="text-md font-semibold text-gray-300 mb-2 flex items-center gap-1"><i data-lucide="file-text"></i><span>Metadados</span></h4>
+            <p class="text-gray-400 mb-4 text-sm">Acesse o Metadados para análise automatizada de imagens, vídeos e documentos.</p>
+            <a href="https://www.metadata2go.com/view-metadata" target="_blank" class="inline-block bg-emerald-500 hover:bg-emerald-600 px-4 py-2 rounded text-white w-full text-center transition-colors flex items-center justify-center gap-2"><i data-lucide="link"></i><span>Acessar Metadatos</span></a>
+          </div>
+          <div class="mb-6">
+            <h4 class="text-md font-semibold text-gray-300 mb-2 flex items-center gap-1"><i data-lucide="robot"></i><span>ChatGPT</span></h4>
+            <p class="text-gray-400 mb-4 text-sm">Acesse o ChatGPT da OpenAI para análise, geração de texto e interações com IA.</p>
+            <a href="https://chat.openai.com" target="_blank" class="inline-block bg-emerald-500 hover:bg-emerald-600 px-4 py-2 rounded text-white w-full text-center transition-colors flex items-center justify-center gap-2"><i data-lucide="link"></i><span>Abrir ChatGPT</span></a>
+          </div>
+          <div>
+            <h4 class="text-md font-semibold text-gray-300 mb-2 flex items-center gap-1"><i data-lucide="eye"></i><span>ZEUS/ARGUS</span></h4>
+            <p class="text-gray-400 mb-4 text-sm">ACESSO PRIVADO ZEUS.</p>
+            <a href="https://start.me/p/kvNynz/agerphontes" target="_blank" class="inline-block bg-emerald-500 hover:bg-emerald-600 px-4 py-2 rounded text-white w-full text-center transition-colors flex items-center justify-center gap-2"><i data-lucide="link"></i><span>ARGUS/ZEUS</span></a>
+          </div>
         </div>
-        <form action="https://www.google.com/search" method="get" target="_blank" onsubmit="formatSearch('personNameContactPhone', 'personNameContactPhone_hidden', 'telefone OR celular')">
-          <input id="personNameContactPhone" type="text" placeholder="Ex: Pedro Santos" class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3" required>
-          <input type="hidden" name="as_q" id="personNameContactPhone_hidden">
-          <button class="bg-primary hover:bg-green-600 px-4 py-2 rounded text-white">Pesquisar</button>
-        </form>
       </div>
-
-      <!-- Dono do Zap -->
-      <div class="bg-darkCard p-6 rounded-2xl shadow-lg">
-        <div class="flex items-center gap-2 mb-4">
-          <i data-lucide="zap" class="text-yellow-400"></i>
-          <h3 class="text-lg font-semibold text-yellow-400">Dono do Zap</h3>
-        </div>
-        <form action="https://donodozap.com/" method="get" target="_blank">
-          <input type="text" placeholder="Ex: 5511987654321 (opcional)" class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3">
-          <button class="bg-yellow-500 hover:bg-yellow-600 px-4 py-2 rounded text-white">Ir para Dono do Zap</button>
-        </form>
-      </div>
-
-      <!-- WhatsMyName -->
-      <div class="bg-darkCard p-6 rounded-2xl shadow-lg">
-        <div class="flex items-center gap-2 mb-4">
-          <i data-lucide="globe" class="text-blue-400"></i>
-          <h3 class="text-lg font-semibold text-blue-400">WhatsMyName Web</h3>
-        </div>
-        <form action="https://whatsmyname.app/" method="get" target="_blank">
-          <input type="text" placeholder="Ex: usuario_exemplo ou email@dominio.com" class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3">
-          <button class="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-white">Ir para WhatsMyName</button>
-        </form>
-      </div>
-
-      <!-- Wayback -->
-      <div class="bg-darkCard p-6 rounded-2xl shadow-lg">
-        <div class="flex items-center gap-2 mb-4">
-          <i data-lucide="archive" class="text-purple-400"></i>
-          <h3 class="text-lg font-semibold text-purple-400">Wayback Machine</h3>
-        </div>
-        <form id="waybackForm" method="get" target="_blank" onsubmit="redirectWayback()">
-          <input id="waybackUrl" type="text" placeholder="Ex: https://www.exemplo.com" class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3" required>
-          <button class="bg-purple-500 hover:bg-purple-600 px-4 py-2 rounded text-white">Buscar Arquivo</button>
-        </form>
-      </div>
-
-      <!-- Have I Been Pwned -->
-      <div class="bg-darkCard p-6 rounded-2xl shadow-lg">
-        <div class="flex items-center gap-2 mb-4">
-          <i data-lucide="shield-off" class="text-hibp"></i>
-          <h3 class="text-lg font-semibold text-hibp">Verificar Vazamentos (Have I Been Pwned)</h3>
-        </div>
-        <form id="hibpForm" action="https://haveibeenpwned.com/" method="get" target="_blank" onsubmit="redirectHIBP()">
-          <input id="hibpInput" type="text" placeholder="Ex: seu.email@dominio.com" class="w-full bg-gray-800 border border-gray-600 p-3 rounded mb-3">
-          <button class="bg-hibp hover:bg-red-600 px-4 py-2 rounded text-white">Verificar Vazamentos</button>
-        </form>
-      </div>
-	  
-	  <!-- Metadados -->
-<div class="bg-darkCard p-6 rounded-2xl shadow-lg">
-  <div class="flex items-center gap-2 mb-4">
-    <i data-lucide="bot" class="text-emerald-400"></i>
-    <h3 class="text-lg font-semibold text-emerald-400">Metadados</h3>
-  </div>
-  <p class="text-gray-400 mb-4">Acesse o Metadados para análise automatizada, Imagens, Videos e Documentos.</p>
-  <a href="https://www.metadata2go.com/view-metadata" target="_blank" class="inline-block bg-emerald-500 hover:bg-emerald-600 px-4 py-2 rounded text-white">Metadatos</a>
-</div>
-
-<!-- ChatGPT -->
-<div class="bg-darkCard p-6 rounded-2xl shadow-lg">
-  <div class="flex items-center gap-2 mb-4">
-    <i data-lucide="bot" class="text-emerald-400"></i>
-    <h3 class="text-lg font-semibold text-emerald-400">ChatGPT</h3>
-  </div>
-  <p class="text-gray-400 mb-4">Acesse o ChatGPT da OpenAI para análise automatizada, geração de texto e outras interações com IA.</p>
-  <a href="https://chat.openai.com" target="_blank" class="inline-block bg-emerald-500 hover:bg-emerald-600 px-4 py-2 rounded text-white">Abrir ChatGPT</a>
-</div>
-
-  <!-- ARGUS/ZEUS -->
-<div class="bg-darkCard p-6 rounded-2xl shadow-lg">
-  <div class="flex items-center gap-2 mb-4">
-    <i data-lucide="bot" class="text-emerald-400"></i>
-    <h3 class="text-lg font-semibold text-emerald-400">ZEUS/ARGUS</h3>
-  </div>
-  <p class="text-gray-400 mb-4">ACESSO PRIVADO ZEUS</p>
-  <a href="https://start.me/p/kvNynz/agerphontes" target="_blank" class="inline-block bg-emerald-500 hover:bg-emerald-600 px-4 py-2 rounded text-white">ARGUS/ZEUS</a>
-</div>
-	    
     </div>
-  </div>
-
-  <!-- Scripts -->
+    
+    <div class="space-y-8 mt-8">
+      <div class="bg-darkCard p-6 rounded-2xl shadow-lg border border-gray-700">
+        <div class="flex items-center gap-2 mb-4">
+          <i data-lucide="link" class="text-green-400"></i>
+          <h3 class="text-xl font-bold text-green-400">Ferramentas de Pesquisa Adicionais</h3>
+        </div>
+        <div class="mb-6">
+          <h4 class="text-md font-semibold text-gray-300 mb-2 flex items-center gap-1"><span>Escavador</span></h4>
+          <p class="text-gray-400 mb-4 text-sm">Pesquisa de processos e informações jurídicas.</p>
+          <a href="https://www.escavador.com/" target="_blank" class="inline-block bg-green-500 hover:bg-green-600 px-4 py-2 rounded text-white w-full text-center transition-colors flex items-center justify-center gap-2"><i data-lucide="link"></i><span>Ir para Escavador</span></a>
+        </div>
+        <div class="mb-6">
+          <h4 class="text-md font-semibold text-gray-300 mb-2 flex items-center gap-1"><span>Plataforma Lattes</span></h4>
+          <p class="text-gray-400 mb-4 text-sm">Currículos de pesquisadores e acadêmicos.</p>
+          <a href="https://lattes.cnpq.br/" target="_blank" class="inline-block bg-green-500 hover:bg-green-600 px-4 py-2 rounded text-white w-full text-center transition-colors flex items-center justify-center gap-2"><i data-lucide="link"></i><span>Ir para Plataforma Lattes</span></a>
+        </div>
+        <div class="mb-6">
+          <h4 class="text-md font-semibold text-gray-300 mb-2 flex items-center gap-1"><span>Wikipedia</span></h4>
+          <p class="text-gray-400 mb-4 text-sm">Enciclopédia online colaborativa.</p>
+          <a href="https://www.wikipedia.org/" target="_blank" class="inline-block bg-green-500 hover:bg-green-600 px-4 py-2 rounded text-white w-full text-center transition-colors flex items-center justify-center gap-2"><i data-lucide="link"></i><span>Ir para Wikipedia</span></a>
+        </div>
+        <div class="mb-6">
+          <h4 class="text-md font-semibold text-gray-300 mb-2 flex items-center gap-1"><span>Rede CNPJ</span></h4>
+          <p class="text-gray-400 mb-4 text-sm">Consulta de informações de empresas por CNPJ.</p>
+          <a href="https://www.redecnpj.com.br/demo/" target="_blank" class="inline-block bg-green-500 hover:bg-green-600 px-4 py-2 rounded text-white w-full text-center transition-colors flex items-center justify-center gap-2"><i data-lucide="link"></i><span>Ir para Rede CNPJ</span></a>
+        </div>
+      </div>
     </div>
+
+
+    <div class="mt-8 text-center">
+      <button class="bg-indigo-500 hover:bg-indigo-600 px-6 py-3 rounded-full text-white font-bold shadow-lg transition-colors flex items-center justify-center gap-2 mx-auto"><i data-lucide="file-text"></i><span>Gerar Relatório</span></button>
+      <p class="text-sm text-gray-500 mt-2">Funcionalidade de geração de relatório não implementada nesta versão estática.</p>
+    </div>
+
   </div>
 </div>
 
-<!-- Scripts -->
 <script>
   lucide.createIcons();
 
-  function verificarSenha() {
-   const senhasValidas = ["opinfo", "rbjv", "rafael"]; // 🔑 Adicione mais senhas aqui
-const senhaDigitada = document.getElementById("senhaInput").value;
+  const html = document.documentElement;
+  const themeToggle = document.getElementById('theme-toggle');
 
-if (senhasValidas.includes(senhaDigitada)) {
+  // Função para aplicar o tema com base na preferência do usuário ou do sistema
+  function aplicarTema() {
+    const temaArmazenado = localStorage.getItem('theme');
+    const temaPreferidoDoSistema = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+
+    const temaFinal = temaArmazenado || temaPreferidoDoSistema;
+
+    if (temaFinal === 'dark') {
+      html.classList.add('dark');
+      themeToggle.innerHTML = '<i data-lucide="sun" class="h-6 w-6"></i>';
+    } else {
+      html.classList.remove('dark');
+      themeToggle.innerHTML = '<i data-lucide="moon" class="h-6 w-6"></i>';
+    }
+    // Re-renderizar os ícones após a mudança de tema
+    lucide.createIcons();
+  }
+
+  // Chamar a função para aplicar o tema ao carregar a página
+  aplicarTema();
+
+  // Adicionar o evento de clique ao botão de alternância de tema
+  themeToggle.addEventListener('click', () => {
+    if (html.classList.contains('dark')) {
+      html.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    } else {
+      html.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    }
+    // Re-renderizar os ícones após a mudança de tema
+    aplicarTema();
+  });
+
+  const senhasValidas = ["opinfo", "rbjv", "rafael"];
+  function verificarSenha() {
+    const senhaDigitada = document.getElementById("senhaInput").value.toLowerCase();
+    if (senhasValidas.includes(senhaDigitada)) {
       document.getElementById("telaSenha").style.display = "none";
       document.getElementById("conteudoPrincipal").style.display = "block";
+      document.body.classList.add('fade-in');
     } else {
-      document.getElementById("erroSenha").classList.remove("hidden");
+      const erroSenha = document.getElementById("erroSenha");
+      erroSenha.classList.remove("hidden");
+      erroSenha.classList.add("fade-in");
     }
   }
 
   function formatSearch(inputId, hiddenId, keywords) {
-    const name = document.getElementById(inputId).value;
-    document.getElementById(hiddenId).value = `intext:"${name}" AND (${keywords})`;
+    const value = document.getElementById(inputId).value;
+    document.getElementById(hiddenId).value = `intext:"${value}" AND (${keywords})`;
   }
 
   function redirectWayback() {
@@ -269,8 +325,35 @@ if (senhasValidas.includes(senhaDigitada)) {
       window.open(`https://haveibeenpwned.com/account/${encodeURIComponent(value)}`, '_blank');
     }
   }
+	  let currentFontSize = 100;
+
+  function applyFontSize() {
+    document.body.style.fontSize = `${currentFontSize}%`;
+    localStorage.setItem('fontSize', currentFontSize);
+  }
+
+  document.getElementById('increase-font').addEventListener('click', () => {
+    if (currentFontSize < 150) {
+      currentFontSize += 10;
+      applyFontSize();
+    }
+  });
+
+  document.getElementById('decrease-font').addEventListener('click', () => {
+    if (currentFontSize > 70) {
+      currentFontSize -= 10;
+      applyFontSize();
+    }
+  });
+
+  // Aplicar tamanho salvo
+  const savedFontSize = localStorage.getItem('fontSize');
+  if (savedFontSize) {
+    currentFontSize = parseInt(savedFontSize, 10);
+    applyFontSize();
+  }
+
 </script>
 
 </body>
 </html>
-
